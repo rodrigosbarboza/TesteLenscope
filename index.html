@@ -1,0 +1,135 @@
+<!-- Teste para vaga de estágio em Desenvolvimento Web -->
+
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desafio Lenscope</title>
+  <style>
+    h1 {
+      font-size: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+
+    h2,
+    label {
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+
+    p {
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+
+    .dados {
+      text-align: center;
+    }
+
+    .container {
+      width: 400px;
+      height: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(183, 220, 250, 0.644);
+      border-radius: 10px;
+    }
+
+    .botaoSubmeter {
+      width: 60px;
+      margin-top: 20px;
+      border-radius: 5px;
+      border: currentColor;
+      background-color: #ffffff;
+    }
+
+    .botaoSubmeter:hover {
+      background-color: #bebebe;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Entrada de dados da receita após o exame -->
+  <h1>Informe o grau de acordo com sua receita médica</h1>
+
+  <form class="container">
+    <!-- Dados para grau esferico -->
+    <div class="dados">
+      <h2>Grau Esferico</h2>
+      <label for="esfericoEsquerdo">OE</label>
+      <input type="number" name="esfericoDireito" id="esfericoDireito" min="-15" max="0" value="0" required />
+      <label for="esfericoEsquerdo">OD </label>
+      <input type="number" name="esfericoEsquerdo" id="esfericoEsquerdo" min="-15" max="0" value="0" required />
+    </div>
+
+    <!-- Dados para grau cilindrico -->
+    <div class="dados">
+      <h2>Grau Cilindrico</h2>
+      <label for="cilindricoEsquerdo">OE</label>
+      <input type="number" name="cilindricoDireito" id="cilindricoDireito" min="-6" max="0" step="0.25" value="0.00"
+        required />
+      <label for="cilindricoEsquerdo">OD </label>
+      <input type="number" name="cilindricoEsquerdo" id="cilindricoEsquerdo" min="-6" max="0" step="0.25" value="0.00"
+        required />
+    </div>
+
+    <input class="botaoSubmeter" type="button" onclick="valoresLentes()" value="Enviar" />
+  </form>
+
+  <div class="resultado">
+    <p id="lenteIndicada"></p>
+  </div>
+
+  <!-- Logica para validar a lente indicada para o usuário -->
+  <script>
+    var lenteEsfericaD, lenteEsfericaE, lenteCilindricaD, lenteCilindricaE;
+
+    function valoresLentes() {
+      lenteEsfericaD = document.getElementById('esfericoDireito').value;
+      lenteEsfericaE = document.getElementById('esfericoEsquerdo').value;
+      lenteCilindricaD = document.getElementById('cilindricoEsquerdo').value;
+      lenteCilindricaE = document.getElementById('cilindricoEsquerdo').value;
+
+      Lógica
+      function testeLente() {
+        if ((lenteEsfericaD <= -3 && lenteEsfericaE <= -3) && (lenteEsfericaD >= -12 && lenteEsfericaE >= -12)) {
+          if ((lenteCilindricaD < 0 && lenteCilindricaE >= -2) && (lenteCilindricaD < 0 && lenteCilindricaE >= -2)) {
+            return "Lente indicada, tipo Prime com grau esferico entre -3 e -10 e grau cilindrico entre 0 e -2.";
+          } else {
+            return "Lente indicada tipo Prime, grau esferico entre -3 e -12, grau cilindrico inexistente";
+          }
+        } else if ((lenteEsfericaD < 0 && lenteEsfericaD >= -15) && (lenteEsfericaE < 0 && lenteEsfericaE >= -15)) {
+          if ((lenteCilindricaD < 0 && lenteCilindricaD >= -5) && (lenteCilindricaE < 0 && lenteCilindricaE >= -5)) {
+            return "Lente indicada tipo Vision, grau esferico: entre 0 e -15,  grau cilindrico entre 0 e -5.";
+          }
+          return "Lente indicada tipo Vision, grau esferico: entre 0 e -15,  grau cilindrico inexistente";
+        }
+      }
+
+      // Validação da entrada de dados
+      if ((lenteEsfericaD < 0 && lenteEsfericaD >= -15) && (lenteEsfericaE < 0 && lenteEsfericaE >= -15)) {
+        if ((lenteCilindricaD <= 0 && lenteCilindricaD >= -6) && (lenteCilindricaE <= 0 && lenteCilindricaE >= -6)) {
+          resultado = testeLente(lenteEsfericaD, lenteEsfericaE, lenteCilindricaD, lenteCilindricaE);
+        } else {
+          document.getElementById('lenteIndicada').innerHTML = "Valores incorretos!"
+        }
+      } else {
+        document.getElementById('lenteIndicada').innerHTML = "Valores incorretos!"
+      }
+
+      document.getElementById('lenteIndicada').innerHTML = resultado
+    }
+  </script>
+
+</body>
+
+</html>
