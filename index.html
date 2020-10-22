@@ -3,28 +3,42 @@
 <!DOCTYPE html>
 <html lang="PT-BR">
 
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400&display=swap" rel="stylesheet">
   <title>Desafio Lenscope</title>
   <style>
+    body {
+      width: 700px;
+      height: 900px;
+      margin: 0 auto;
+    }
+
     h1 {
-      font-size: 18px;
-      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-family: Dosis, sans-serif;
       text-align: center;
     }
 
     h2,
     label {
-      font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-family: Dosis, sans-serif;
       text-align: center;
     }
 
     p {
-      font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      font-family: Dosis, sans-serif;
       text-align: center;
+    }
+
+    ol,
+    ul {
+      padding-left: 0;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     .dados {
@@ -32,26 +46,28 @@
     }
 
     .container {
-      width: 400px;
-      height: 200px;
+      width: 350px;
+      height: 300px;
+      margin-top: 20px;
       margin-left: auto;
       margin-right: auto;
       text-align: center;
+      background-color: rgba(197, 223, 238, 0.856);
+      border-radius: 5px;
       padding: 20px;
-      background-color: rgba(183, 220, 250, 0.644);
-      border-radius: 10px;
     }
 
     .botaoSubmeter {
       width: 60px;
+      height: 20px;
       margin-top: 20px;
-      border-radius: 5px;
-      border: currentColor;
-      background-color: #ffffff;
+      border-radius: 2px;
+      border: solid 1pt rgb(165, 165, 165);
+      background-color: #f0f0f0;
     }
 
     .botaoSubmeter:hover {
-      background-color: #bebebe;
+      background-color: #bbbbbb;
     }
   </style>
 
@@ -61,23 +77,30 @@
   <!-- Entrada de dados da receita após o exame -->
   <h1>Informe o grau de acordo com sua receita médica</h1>
 
+
+
   <form class="container">
     <!-- Dados para grau esferico -->
+    <ol>
+      <ul>Olho Direito - OD</ul>
+      <ul>Olho Esquerdo - ED</ul>
+    </ol>
+
     <div class="dados">
       <h2>Grau Esferico</h2>
-      <label for="esfericoEsquerdo">OE</label>
+      <label for="esfericoDireito">OD</label>
       <input type="number" name="esfericoDireito" id="esfericoDireito" min="-15" max="0" value="0" required />
-      <label for="esfericoEsquerdo">OD </label>
+      <label for="esfericoEsquerdo">OE</label>
       <input type="number" name="esfericoEsquerdo" id="esfericoEsquerdo" min="-15" max="0" value="0" required />
     </div>
 
     <!-- Dados para grau cilindrico -->
     <div class="dados">
       <h2>Grau Cilindrico</h2>
-      <label for="cilindricoEsquerdo">OE</label>
+      <label for="cilindricoDireito">OD</label>
       <input type="number" name="cilindricoDireito" id="cilindricoDireito" min="-6" max="0" step="0.25" value="0.00"
         required />
-      <label for="cilindricoEsquerdo">OD </label>
+      <label for="cilindricoEsquerdo">OE</label>
       <input type="number" name="cilindricoEsquerdo" id="cilindricoEsquerdo" min="-6" max="0" step="0.25" value="0.00"
         required />
     </div>
@@ -91,41 +114,96 @@
 
   <!-- Logica para validar a lente indicada para o usuário -->
   <script>
-    var lenteEsfericaD, lenteEsfericaE, lenteCilindricaD, lenteCilindricaE;
+    //função para avaliar o grau tipo esferico
+    function testLenteEsferica(grauEsferico) {
+      let analiseLenteEsferica = [];
 
-    function valoresLentes() {
-      lenteEsfericaD = document.getElementById('esfericoDireito').value;
-      lenteEsfericaE = document.getElementById('esfericoEsquerdo').value;
-      lenteCilindricaD = document.getElementById('cilindricoEsquerdo').value;
-      lenteCilindricaE = document.getElementById('cilindricoEsquerdo').value;
-
-      Lógica
-      function testeLente() {
-        if ((lenteEsfericaD <= -3 && lenteEsfericaE <= -3) && (lenteEsfericaD >= -12 && lenteEsfericaE >= -12)) {
-          if ((lenteCilindricaD < 0 && lenteCilindricaE >= -2) && (lenteCilindricaD < 0 && lenteCilindricaE >= -2)) {
-            return "Lente indicada, tipo Prime com grau esferico entre -3 e -10 e grau cilindrico entre 0 e -2.";
-          } else {
-            return "Lente indicada tipo Prime, grau esferico entre -3 e -12, grau cilindrico inexistente";
-          }
-        } else if ((lenteEsfericaD < 0 && lenteEsfericaD >= -15) && (lenteEsfericaE < 0 && lenteEsfericaE >= -15)) {
-          if ((lenteCilindricaD < 0 && lenteCilindricaD >= -5) && (lenteCilindricaE < 0 && lenteCilindricaE >= -5)) {
-            return "Lente indicada tipo Vision, grau esferico: entre 0 e -15,  grau cilindrico entre 0 e -5.";
-          }
-          return "Lente indicada tipo Vision, grau esferico: entre 0 e -15,  grau cilindrico inexistente";
+      for (let i = 0; i <= grauEsferico.length; i++) {
+        if (grauEsferico[i] <= -3 && grauEsferico[i] >= -12) {
+          analiseLenteEsferica.push(true);
+        } else {
+          analiseLenteEsferica.push(false);
         }
       }
+
+      if (analiseLenteEsferica[0] === true && analiseLenteEsferica[1] === true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    //Função para avaliar o grau tipo cilindrico
+    function testLenteCilindrica(lenteCilindrica) {
+      let resultadoLenteCilindrica = [];
+
+      for (let i = 0; i <= lenteCilindrica.length; i++) {
+        if (lenteCilindrica[i] != 0 && lenteCilindrica[i] >= -2) {
+          resultadoLenteCilindrica.push("Restricao");
+        } else if (lenteCilindrica[i] < 0 && lenteCilindrica[i] >= -5) {
+          resultadoLenteCilindrica.push(true);
+        } else {
+          resultadoLenteCilindrica.push(false);
+        }
+      }
+
+      if (resultadoLenteCilindrica[0] === "Restricao" && resultadoLenteCilindrica[1] === "Restricao") {
+        return "Restricao";
+      } else if (resultadoLenteCilindrica[0] === "Restricao" && resultadoLenteCilindrica[1] === false) {
+        return "Restricao";
+      } else if (resultadoLenteCilindrica[0] === false && resultadoLenteCilindrica[1] === "Restricao") {
+        return "Restricao"
+      } else if (resultadoLenteCilindrica[0] === true && resultadoLenteCilindrica[1] === true) {
+        return true;
+      } else if (resultadoLenteCilindrica[0] === true && resultadoLenteCilindrica[1] === false) {
+        return true
+      } else if (resultadoLenteCilindrica[0] === false && resultadoLenteCilindrica[1] === true) {
+        return true
+      } else {
+        return false;
+      }
+    }
+
+    //Função para retornar o resultado das análises
+    function testeLentes(grauEsferico, grauCilidrico) {
+      var resultadoFinal;
+
+      resultadoA = testLenteEsferica(grauEsferico);
+      resultadoB = testLenteCilindrica(grauCilidrico);
+
+      if (resultadoA === true && resultadoB === "Restricao") {
+        resultadoFinal = "Lente indicada tipo Prime com grau esferico entre -3 e -10."
+      } else if (resultadoA === true && resultadoB === false) {
+        resultadoFinal = "Lente indicada tipo Prime.";
+      } else {
+        resultadoFinal = "Lente indicada tipo Vision com grau esferico entre 0 e -5."
+      }
+      return resultadoFinal
+    }
+
+    // return "Lente indicada tipo Vision, grau esferico: entre 0 e -15";
+    function valoresLentes() {
+      let grauEsferico = []
+      let grauCilindrico = []
+      let resultado
+
+
+      // Captura dos dados do formulário
+      grauEsferico.push(document.getElementById('esfericoDireito').value);
+      grauEsferico.push(document.getElementById('esfericoEsquerdo').value);
+      grauCilindrico.push(document.getElementById('cilindricoDireito').value);
+      grauCilindrico.push(document.getElementById('cilindricoEsquerdo').value);
 
       // Validação da entrada de dados
-      if ((lenteEsfericaD < 0 && lenteEsfericaD >= -15) && (lenteEsfericaE < 0 && lenteEsfericaE >= -15)) {
-        if ((lenteCilindricaD <= 0 && lenteCilindricaD >= -6) && (lenteCilindricaE <= 0 && lenteCilindricaE >= -6)) {
-          resultado = testeLente(lenteEsfericaD, lenteEsfericaE, lenteCilindricaD, lenteCilindricaE);
+      if ((grauEsferico[0] < 0 && grauEsferico[0] >= -15) && (grauEsferico[1] < 0 && grauEsferico[1] >= -15)) {
+        if ((grauCilindrico[0] <= 0 && grauCilindrico[0] > -6) && (grauCilindrico[1] <= 0 && grauCilindrico[1] > -6)) {
+          resultado = testeLentes(grauEsferico, grauCilindrico);
         } else {
-          document.getElementById('lenteIndicada').innerHTML = "Valores incorretos!"
+          resultado = "Valores incorretos!"
         }
       } else {
-        document.getElementById('lenteIndicada').innerHTML = "Valores incorretos!"
+        resultado = "Valores incorretos!"
       }
-
       document.getElementById('lenteIndicada').innerHTML = resultado
     }
   </script>
